@@ -1,0 +1,89 @@
+body{
+  margin:0;
+  padding: 0;
+}
+.header-container{
+  padding: 0 5%;
+  width: 90%;
+  top:0;
+  left: 0;
+  height: 70px;
+  background-color: grey;
+  position: fixed;
+}
+.header-content{
+  display: flex;
+  height: 100%;
+  align-items:center;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.page{
+  margin-top: 90px;
+  padding: 0 5%;
+  width: 90%;
+}
+.loader{
+  border: 2px dot-dash greenyellow;
+  position: fixed;
+  width: 100px;
+  align-self: center;
+  height: 100px;
+  border-radius: 180px;
+}
+.loader-enter-active{
+  animation: enter forwards;
+}
+.loader-exit{
+  animation: spin infinite;
+}
+.loader-exit-active{
+  animation: enter reverse;
+}
+@keyframes enter {
+  0%{
+    transform: translateY(-70vh);
+  }
+  100%{
+    transform: translateY(0);
+  }
+}
+@keyframes spin{
+  0%{
+    transform: rotateZ(0deg);
+  }
+  100%{
+    transform: rotateZ(360deg);
+  }
+}
+@media (max-width: 767px) {
+  .MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded.MuiPaper-elevation0.MuiPopover-paper.MuiMenu-paper.css-1pe8bu9-MuiPaper-root-MuiPopover-paper-MuiMenu-paper{
+    margin-left: -2%;
+  }
+}
+.profile-container{
+  display: grid;
+  width: 100%;
+  margin-top: 4vh;
+  grid-template-columns: 8fr 2fr;
+}
+.profile-menu{
+  width:100%;
+}
+.profile-menu-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.profile-menu-container div{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  align-items: center;
+  height: 6vh;
+  transition: 1s;
+}
+.profile-menu-container div:hover{
+  box-shadow: 0px 0px 21px 18px rgba(84, 74, 240, 0.23);
+}
