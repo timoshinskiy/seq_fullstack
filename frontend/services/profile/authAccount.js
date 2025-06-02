@@ -1,5 +1,5 @@
 import axios from "axios";
-import User from '../store/user.js';
+import User from '../../store/user.js';
 import {toast} from "react-toastify";
 export const tokenLogin = async (token) => {
     try{

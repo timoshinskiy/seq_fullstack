@@ -11,7 +11,7 @@ import {
     IconButton, Typography, Button
 } from "@mui/material";
 import {AccountCircle, Visibility, VisibilityOff} from '@mui/icons-material';
-import {loginAccount} from "../services/loginAccount.js";
+import {loginAccount} from "../services/authenticate/loginAccount.js";
 import {toast} from "react-toastify";
 
 const LoginModal = (props) => {

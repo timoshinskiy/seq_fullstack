@@ -3,19 +3,19 @@ class ProductController {
     async getAll(req,res){
         try{
             const data = await service.getProducts();
-            res.status(204).json(data);
+            res.status(203).json(data);
         }catch (e) {
             res.status(501).send(e.message);
         }
     }
     async getProduct(req,res){
         try {
-            const {id} = req.body;
+            const {id} = req.params;
             const product = await service.getProduct(id);
             if(!product){
                 res.status(404).send('Item with this id was not found');
             }
-            return res.status(204).json(product);
+            return res.status(202).json(product);
         }catch (e) {
             res.status(502).send(e.message);
         }

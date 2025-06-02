@@ -5,11 +5,13 @@ const {Product, User} = require('../models/models.js');
 class ProductService {
     async getProducts () {
         try {
-            const products = await Product.findAll();
-            if(!products){
+            const response = await Product.findAll();
+            if(!response){
                 throw new Error('There are no items');
             }
-            return products;
+            let arr = response.map(item=>{return {...item.dataValues}});
+            console.log(arr);
+            return arr;
         } catch (e) {
             throw e;
         }
@@ -17,7 +19,8 @@ class ProductService {
 
     async getProduct (id) {
         try {
-            const product = await Product.findByPk(id);
+            const response = await Product.findByPk(id);
+            const product = await response.dataValues;
             return product;
         } catch (e) {
             throw e
@@ -32,7 +35,9 @@ class ProductService {
                 const filepath = path.resolve(__dirname,'..','files',filename);
                 await file.mv(filepath);
             }else filename = '4440881-200.png';
+            console.log(obj);
             const response = await Product.create({...obj,picture:filename});
+            console.log(response);
             return response;
         }catch (e) {
             throw e;

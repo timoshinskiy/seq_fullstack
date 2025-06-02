@@ -4,6 +4,7 @@ body{
 }
 .header-container{
   padding: 0 5%;
+  z-index: 99;
   width: 90%;
   top:0;
   left: 0;
@@ -21,7 +22,9 @@ body{
 .page{
   margin-top: 90px;
   padding: 0 5%;
+  padding-bottom: 10%;
   width: 90%;
+  overflow-x: hidden;
 }
 .loader{
   border: 2px dot-dash greenyellow;
@@ -86,4 +89,85 @@ body{
 }
 .profile-menu-container div:hover{
   box-shadow: 0px 0px 21px 18px rgba(84, 74, 240, 0.23);
+}
+.create-item-inputs{
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  grid-template-rows: repeat(4,1fr) ;
+  grid-template-areas:
+          'item-1 item-2'
+          'item-3 item-5'
+          'item-4 item-5';
+  width: 80%;
+  margin-top: 7vh;
+  column-gap: 4vw;
+  row-gap: 3vh;
+  margin-bottom: 3vh;
+}
+
+.input-file {
+  position: relative;
+  display: inline-block;
+}
+.input-file span {
+  position: relative;
+  align-self: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  outline: none;
+  text-decoration: none;
+  font-size: 18px;
+  vertical-align: center;
+  color: rgb(255 255 255);
+  text-align: center;
+  border-radius: 4px;
+  background-color: #654191;
+  line-height: 22px;
+  height: 100%;
+  padding: 10px 20px;
+  box-sizing: border-box;
+  border: none;
+  margin: 0;
+  transition: background-color 0.2s;
+}
+.input-file input[type=file] {
+  position: absolute;
+  z-index: -1;
+  opacity: 0;
+  display: block;
+  width: 0;
+  height: 0;
+}
+
+/* Focus */
+.input-file input[type=file]:focus + span {
+  box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+}
+
+/* Hover/active */
+.input-file:hover span {
+  background-color: #5966be;
+}
+.input-file:active span {
+  background-color: #362a85;
+}
+
+/* Disabled */
+.input-file input[type=file]:disabled + span {
+  background-color: #eee;
+}
+
+.admin-catalog{
+  display: flex;
+  flex-direction: column;
+  row-gap: 5vh;
+}
+.admin-catalog-product{
+  display: grid;
+  border:1px solid grey;
+  padding: 2%;
+  grid-template-columns: 2fr 5fr 1fr;
+  column-gap: 1vw;
 }

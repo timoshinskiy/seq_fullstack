@@ -6,7 +6,7 @@ import user from '../store/user.js';
 import {privateRoutes, publicRoutes} from "./routes.js";
 import {Route, Routes} from "react-router";
 import {toast, ToastContainer} from "react-toastify";
-import {tokenLogin} from "../services/authAccount.js";
+import {tokenLogin} from "../services/profile/authAccount.js";
 
 
 const App = observer(() => {

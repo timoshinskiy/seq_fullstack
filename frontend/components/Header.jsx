@@ -16,9 +16,15 @@ const Header = () => {
     return (
         <div className={'header-container'}>
             <div className="header-content">
-                <Link to={'/'}>Home</Link>
-                <Button variant='contained' color={'secondary'}
-                        onClick={() => setOpenMenu(prev => !prev)}>{user.auth === true ? user.username.length > 3 ? user.username : "Profile" : "Profile"}</Button>
+                <div style={{display:'flex', alignItems:'center', flexDirection:'row', columnGap:'3vw'}}>
+                    <Button variant={'text'} color={'inherit'} sx={{fontSize: 17}} onClick={()=>navigate('/')}>Home</Button>
+                    <Button variant={'text'} color={'inherit'} sx={{fontSize: 17}} onClick={()=>navigate('/catalog')}>Market</Button>
+                </div>
+                <div style={{display:'flex', flexDirection:'row', columnGap:"2vw",alignItems:'center'}}>
+                    {user.auth===true&&<Button variant={'contained'} onClick={()=>navigate('/profile/?type=Payment')}>Cash: {user.wallet} $</Button>}
+                    <Button variant='contained' color={'secondary'}
+                            onClick={() => setOpenMenu(prev => !prev)}>{user.auth === true ? user.username.length > 3 ? user.username : "Profile" : "Profile"}</Button>
+                </div>
                 {
                     user.auth === true ?
                         <HeaderProfileMenu openMenu={openMenu} setOpenMenu={setOpenMenu} navigate={navigate}/> :

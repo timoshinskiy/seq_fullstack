@@ -1,5 +1,6 @@
 const service = require('../service/userService.js');
 const jwt = require('jsonwebtoken');
+const {User} = require("../models/models");
 require('dotenv').config();
 
 class UserController{
@@ -63,20 +64,50 @@ class UserController{
             res.status(501).send(e);
         }
     }
+    async changePW(req,res){
+        try{
+            const {username,password} = req.body;
+            const response = await service.changePW(username,password);
+            res.status(202).send(response);
+        }catch(e){
+            res.status(501).send(e.message);
+        }
+    }
     async sendMail(req,res){
         try {
-
+            const {email} = req.body;
+            const response = await service.sendMail(email);
+            res.status(201).send('Check your mail address to confirm email');
         }catch (e) {
             res.status(501).send(e.message);
         }
     }
     async approveMail(req,res){
         try {
+            await service.approveMail(req.params.uid);
+            const host = process.env.HOST || 'localhost';
+            const port = process.env.PORT || '5173';
+            res.status(301).send('<script>window.location=("http://localhost:5173/")</script>')
+        }catch (e) {
+            res.status(501).send(e.message);
+        }
+    }
+
+    async changeMail(req,res){
+        try{
+            const {username,email} = req.body;
+            const candidate = await service.findUserByEmail(email);
+            console.log(candidate);
+            if(candidate) return res.status(402).send('User with this email currently exist');
+            const user = await service.ChangeMail(username,email);
+            console.log(user);
+            res.status(202).json(user);
 
         }catch (e) {
             res.status(501).send(e.message);
         }
     }
+
     async editWallet(req,res){
         try {
 

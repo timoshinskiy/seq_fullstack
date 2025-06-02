@@ -1,12 +1,20 @@
 const {User} = require("../models/models");
 const {Op} = require("sequelize");
+const uuid = require('uuid');
 const bcrypt = require('bcrypt');
+const transporter = require('./mailer');
+
 class userService {
     async findUserByEmail(email){
-        const candidate = await User.findOne({where: {
-            email:email,
-            }});
-        return candidate;
+        try{
+            const candidate = await User.findOne({where: {
+                    email:email,
+                }});
+            return candidate;
+        }
+        catch (e) {
+            return null;
+        }
     }
     async findUserByUsername(username){
         const candidate = await User.findOne({where: {
@@ -17,7 +25,8 @@ class userService {
     async registerUser({username, password, email}) {
         try {
             const hashPassword = await bcrypt.hash(password,6);
-            const user = await User.create({username,email,password:hashPassword});
+            const uid = uuid.v4()
+            const user = await User.create({username,email,password:hashPassword,uid});
             return user;
         } catch (e) {
             throw e;
@@ -48,7 +57,6 @@ class userService {
             const user = await User.findOne({where: {id: id}});
             let data={};
             for(let key in user.dataValues){
-                console.log(key)
                 if(key!=='password'){
                     data[key]=user.dataValues[key];
                 }
@@ -56,6 +64,56 @@ class userService {
             return data;
         }catch (e) {
             throw e
+        }
+    }
+    async changePW(username,password){
+        try {
+            const hashPassword = await bcrypt.hash(password,6);
+            const user = await User.update({password: hashPassword}, {where: {username: username}});
+            if(!user){
+                throw new Error('Server have troubles!');
+            }
+            return "Successfully changed password";
+        }catch (e) {
+            throw e
+        }
+    }
+    async ChangeMail(username,newEmail){
+        try {
+            const newUid=uuid.v4();
+            const response = await User.update({email: newEmail,email_verified: false,uid:newUid},{where:{username: username}});
+            let resObj = {};
+            for(let key in response){
+                if(key==='password') continue;
+                resObj[key] = response[key];
+            }
+            return resObj.dataValues;
+        }catch (e) {
+            throw e
+        }
+    }
+    async sendMail(email){
+        try {
+            const response = await User.findOne({where: {email:email}});
+            const {uid} = response.dataValues;
+            const message = {
+                from: process.env.MAIL_USER,
+                to: email,
+                subject: 'Approve your email at server account',
+                text: '',
+                html:
+                    `<h1>To approve your account you need to click the button</h1><a href="http://${process.env.HOST}${":"+process.env.PORT}/auth/approve/${uid}"><button>Approve</button></a>`
+            }
+            const sent = await transporter.sendMail({...message});
+        }catch (e) {
+            throw e
+        }
+    }
+    async approveMail(uid){
+        try{
+            const response = await User.update({email_verified: true},{where:{uid: uid}});
+        }catch (e) {
+            throw e;
         }
     }
 }

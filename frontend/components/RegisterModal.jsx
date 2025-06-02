@@ -10,23 +10,22 @@ import {
     Typography
 } from "@mui/material";
 import {AccountCircle, Markunread, Visibility, VisibilityOff} from "@mui/icons-material";
-import {loginAccount} from "../services/loginAccount.js";
+import {loginAccount} from "../services/authenticate/loginAccount.js";
 import {toast} from "react-toastify";
-import {registerAccount} from "../services/registerAccount.js";
+import {registerAccount} from "../services/authenticate/registerAccount.js";
 
 const RegisterModal = (props) => {
-    const checkRepeat=(str)=>{
-        setInputObj({...inputObj,repeatPassword: str});
-        if(str.length===0){
+    const checkRepeat=(equals,checked)=>{
+        setInputObj({...inputObj,repeatPassword: checked});
+        if(checked.length===0){
             repeatRef.status='primary';
             repeatInput.status='primary';
         }
-        else if(str!==inputObj.password){
+        else if(checked!==equals){
             repeatRef.status="error";
             repeatInput.status="error";
         }
-        else if(str===inputObj.password){
-            console.log(str);
+        else if(equals===checked){
             repeatRef.status='success';
             repeatInput.status='success';
         }
@@ -63,7 +62,7 @@ const RegisterModal = (props) => {
                                 color={repeatInput.status||'primary'}
                                 id="outlined-adornment-password-repeat"
                                 value={inputObj.repeatPassword}
-                                onChange={(e)=>checkRepeat(e.target.value)}
+                                onChange={(e)=>checkRepeat(inputObj.password,e.target.value)}
                                 type={showPassword ? 'text' : 'password'}
                                 endAdornment={
                                     <InputAdornment position="end">
